@@ -11,6 +11,7 @@ import (
 	pcjsonutil "github.com/ethereum/go-ethereum/precompile/contracts/jsonutil"
 	pcnativeminter "github.com/ethereum/go-ethereum/precompile/contracts/nativeminter"
 	pcstrings "github.com/ethereum/go-ethereum/precompile/contracts/strings"
+	pcdecryption "github.com/ethereum/go-ethereum/precompile/contracts/decryption"
 )
 
 var NullPrecompiles = precompile.PrecompileMap{}
@@ -23,6 +24,7 @@ var FormaGenesisPrecompiles = precompile.PrecompileMap{
 	common.HexToAddress("0x0F043A000005"): pcstrings.NewStrings(),
 	common.HexToAddress("0x0F043A000006"): pcintegers.NewIntegers(),
 	common.HexToAddress("0x0F043A000007"): pcjsonstore.NewJsonStore(),
+	common.HexToAddress("0x0F043A000008"): pcdecryption.NewDecryption(),
 }
 
 // return precompiles that are enabled at height

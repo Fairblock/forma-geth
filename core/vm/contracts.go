@@ -17,12 +17,15 @@
 package vm
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"math/big"
 
+	enc "github.com/FairBlock/DistributedIBE/encryption"
+	bls "github.com/drand/kyber-bls12381"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -76,6 +79,7 @@ var PrecompiledContractsIstanbul = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{7}): &bn256ScalarMulIstanbul{},
 	common.BytesToAddress([]byte{8}): &bn256PairingIstanbul{},
 	common.BytesToAddress([]byte{9}): &blake2F{},
+	common.BytesToAddress([]byte{0x0b}):&decryption{},
 }
 
 // PrecompiledContractsBerlin contains the default set of pre-compiled Ethereum
@@ -90,6 +94,7 @@ var PrecompiledContractsBerlin = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{7}): &bn256ScalarMulIstanbul{},
 	common.BytesToAddress([]byte{8}): &bn256PairingIstanbul{},
 	common.BytesToAddress([]byte{9}): &blake2F{},
+	common.BytesToAddress([]byte{0x0b}):&decryption{},
 }
 
 // PrecompiledContractsCancun contains the default set of pre-compiled Ethereum
@@ -105,6 +110,7 @@ var PrecompiledContractsCancun = map[common.Address]PrecompiledContract{
 	common.BytesToAddress([]byte{8}):    &bn256PairingIstanbul{},
 	common.BytesToAddress([]byte{9}):    &blake2F{},
 	common.BytesToAddress([]byte{0x0a}): &kzgPointEvaluation{},
+	common.BytesToAddress([]byte{0x0b}):&decryption{},
 }
 
 // PrecompiledContractsBLS contains the set of pre-compiled Ethereum
@@ -559,7 +565,41 @@ func runBn256Pairing(input []byte) ([]byte, error) {
 	}
 	return false32Byte, nil
 }
+func decrypt(input []byte) ([]byte, error) {
 
+	privateKeyByte := input[0 : 96]
+   
+	cipherBytes := input[96:]
+    
+	
+		suite := bls.NewBLS12381Suite()
+		privateKeyPoint := suite.G2().Point()
+		err := privateKeyPoint.UnmarshalBinary(privateKeyByte)
+		if err != nil {
+			return []byte{},err
+		}
+		var destPlainText bytes.Buffer
+		var cipherBuffer bytes.Buffer
+		_, err = cipherBuffer.Write(cipherBytes)
+		if err != nil {
+			return []byte{},err
+		}
+		err = enc.Decrypt(privateKeyPoint, privateKeyPoint, &destPlainText, &cipherBuffer)
+		if err != nil {
+			return []byte{},err
+		}
+		return []byte(destPlainText.String()),nil
+
+    // Return the serialized result of the pairing operation
+   
+}
+type decryption struct{}
+func (c *decryption) RequiredGas(input []byte) uint64 {
+	return params.Bn256PairingBaseGasIstanbul 
+}
+func (c *decryption) Run(input []byte) ([]byte, error) {
+	return decrypt(input)
+}
 // bn256PairingIstanbul implements a pairing pre-compile for the bn256 curve
 // conforming to Istanbul consensus rules.
 type bn256PairingIstanbul struct{}

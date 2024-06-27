@@ -22,7 +22,7 @@
         "astriaCelestiaHeightVariance": 10,
         "astriaBridgeAddresses": [
             {
-                "bridgeAddress": "684ae50c49a434199199c9c698115391152d7b3f",
+                "bridgeAddress": "0x684ae50c49a434199199c9c698115391152d7b3f",
                 "startHeight": 1,
                 "assetDenom": "nria",
                 "assetPrecision": 9
@@ -38,6 +38,6 @@
     "difficulty": "10000000",
     "gasLimit": "8000000",
     "alloc": {
-        "0x46B77EFDFB20979E1C29ec98DcE73e3eCbF64102": { "balance": "300000000000000000000" }
+        "0x661b6c26dF1391bC1E56A34C47dB4a4BdD85F1E5": { "balance": "300000000000000000000" }
     }
 }
