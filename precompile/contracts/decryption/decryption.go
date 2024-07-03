@@ -15,7 +15,7 @@ type Decryption struct {
 func NewDecryption() *Decryption {
 	return &Decryption{
 		StatefulPrecompiledContract: precompile.NewStatefulPrecompiledContract(
-			abi.StringsABI,
+			abi.DecryptionABI,
 		),
 	}
 }
