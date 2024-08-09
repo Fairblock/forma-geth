@@ -26,7 +26,11 @@
       "1": "0xaC21B97d35Bf75A7dAb16f35b111a50e78A72F30"
     },
     "astriaEIP1559Params": {
-      "1": { "minBaseFee": 18000000000, "elasticityMultiplier": 2, "BaseFeeChangeDenominator": 8 }
+      "1": {
+        "minBaseFee": 18000000000,
+        "elasticityMultiplier": 2,
+        "BaseFeeChangeDenominator": 8
+      }
     },
     "forma": {
       "hyperlaneMailbox": "0x0000000000000000000000000000000000000000"
@@ -37,6 +41,9 @@
   "alloc": {
     "0xaC21B97d35Bf75A7dAb16f35b111a50e78A72F30": {
       "balance": "300000000000000000000"
+    },
+    "0xa317714f692Cc4c6A591E0Fbf38f3d1Ec27c8548": {
+      "balance": "10000000000000000000"
     },
     "0x00000000000000000000000000000f043a000001": {
       "balance": "0",
