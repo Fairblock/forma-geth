@@ -10,5 +10,5 @@ interface IDecryption {
     function getPK() external view returns (bytes memory);
     function setPK(bytes calldata _pk) external returns (bool);
     function decrypt(bytes calldata privateKeyByte, bytes calldata cipherBytes, string calldata id) external view returns (bytes memory);
-
+    function verify(bytes calldata privateKeyByte, string calldata id) external view returns (bool);
 }
